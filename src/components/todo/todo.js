@@ -79,7 +79,7 @@ function ToDo(props) {
   }, []);
 
   const deleteItem = (id)=>{
-    let newValuesAfterDelete = list.filter((item) => item._id != id);
+    let newValuesAfterDelete = list.filter((item) => item._id !== parseInt(id));
     console.log(newValuesAfterDelete)
     setList(newValuesAfterDelete);
   }
