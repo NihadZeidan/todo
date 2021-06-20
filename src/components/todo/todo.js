@@ -78,15 +78,18 @@ function ToDo(props) {
     setList(preList);
   }, []);
 
-  // function handleDelete(newList) {
-  //   setList(newList);
-  // }
+  const deleteItem = (id)=>{
+    let newValuesAfterDelete = list.filter((item) => item._id != id);
+    console.log(newValuesAfterDelete)
+    setList(newValuesAfterDelete);
+  }
 
-  // function handleEdit(newVal) {
-  //   setList(...list, newVal);
-  // }
+  const editItem = (edited)=>{
+    setList(edited);
+  }
+ 
 
-  return (
+   return (
     <>
       <Navbar bg="primary" variant="dark">
         <Navbar.Brand href="#home">HOME </Navbar.Brand>
@@ -103,7 +106,7 @@ function ToDo(props) {
         </div>
 
         <div className="toDoList">
-          <TodoList list={list} handleComplete={toggleComplete} />
+          <TodoList list={list} handleComplete={toggleComplete} handleDelete={deleteItem} handleEdited={editItem} />
         </div>
       </section>
     </>

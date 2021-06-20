@@ -1,33 +1,36 @@
 import React from "react";
 // import IF from "./IF";
-
-// import { useState, useEffect } from "react";
+// import { useState } from "react";
 import { ListGroup } from "react-bootstrap";
 
 function TodoList(props) {
   // const [edit, setEdit] = useState(false);
-  // const [afterEdit, setAfterEdit] = useState([]);
+  // const [editedValues, setEditValues] = useState([]);
 
-  // function deleteTask(id) {
-  //   let newList = props.list.filter((item) => id != item._id);
-  //   props.Dtask(newList);
-  // }
+  const handleD = (e) => {
+    let id = e.target.value;
+    props.handleDelete(id);
+  };
 
-  // function toggleEditTask() {
+  // function toggleEditTask(e) {
   //   setEdit(!edit);
-  // }
+  //   let id = e.target.value;
+  //   let findElement = props.list.find((item) => id == item._id);
 
-  // function handleEditForm(e) {
-  //   e.preventDefault();
-  //   setAfterEdit({ ...afterEdit, [e.target.name]: e.target.value });
-  //   props.editOriginal(afterEdit);
+  //   setEditValues(findElement);
+  //   console.log(editedValues);
   // }
+  
+  // const handleSubmitEdit = (e) => {
+  //   e.preventDefault();
+  //   // props.handleEdited(editedValues);
+  // };
 
   return (
-    <ul>
-      {props.list.map((item) => (
-        <>
-          <ListGroup>
+    <>
+      <ListGroup>
+        {props.list.map((item) => (
+          <>
             <ListGroup.Item
               onClick={() => props.handleComplete(item._id)}
               className={`complete-${item.complete.toString()}`}
@@ -44,34 +47,31 @@ function TodoList(props) {
                 </p>
               </span>
             </ListGroup.Item>
-            {/* <button onClick={deleteTask(item._id)}> Delete </button> */}
-            {/* <button onClick={toggleEditTask}> Edit </button> */}
-
-            {/* <IF condition={edit}>
-              <form onSubmit={handleEditForm}>
-                <input
-                  type="text"
-                  name="text"
-                  placeholder="Edit the Task"
-                ></input>
-                <input
-                  type="text"
-                  name="assignee"
-                  placeholder="Assigned to"
-                ></input>
-                <input type="range" name="difficulty"></input>
-                <input
-                  type="date"
-                  name="dueDate"
-                  placeholder="Due Date"
-                ></input>
-                <input type="submit" value="Edit"></input>
-              </form>
-            </IF> */}
-          </ListGroup>
-        </>
-      ))}
-    </ul>
+            <button onClick={handleD} value={item._id}>
+              {" "}
+              Delete{" "}
+            </button>
+            {/* <button onClick={toggleEditTask} value={item._id}>
+              {" "}
+              Edit{" "}
+            </button> */}
+          </>
+        ))}
+        {/* <IF condition={edit}>
+          <form onSubmit={handleSubmitEdit}>
+            <input type="text" name="text" placeholder="Edit the Task"></input>
+            <input
+              type="text"
+              name="assignee"
+              placeholder="Assigned to"
+            ></input>
+            <input type="range" name="difficulty"></input>
+            <input type="date" name="dueDate" placeholder="Due Date"></input>
+            <input type="submit" value="Edit"></input>
+          </form>
+        </IF> */}
+      </ListGroup>
+    </>
   );
 }
 

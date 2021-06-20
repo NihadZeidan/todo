@@ -64,6 +64,17 @@ const ToDo = () => {
 
   useEffect(_getTodoItems, []);
 
+  // const deleteItem =(id)=> {
+  //   let url = `${todoAPI}/${id}`;
+  //   fetch(url, {
+  //     method: "delete",
+  //     mode: "cors",
+  //   })
+  //     .then((data) => data.json())
+  //     .then((data) => setList(data.results))
+  //     .catch(console.error);
+  // }
+
   return (
     <>
       <header>
@@ -79,7 +90,11 @@ const ToDo = () => {
         </div>
 
         <div>
-          <TodoList list={list} handleComplete={_toggleComplete} />
+          <TodoList
+            list={list}
+            
+            handleComplete={_toggleComplete}
+          />
         </div>
       </section>
     </>
