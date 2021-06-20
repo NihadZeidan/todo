@@ -1,0 +1,94 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+
+  background-color: black;
+  color: rgb(241, 233, 217);
+  width: 80%;
+  margin: auto;
+  margin-top: 1%;
+}
+
+.item {
+  flex: 1;
+  padding: 1em;
+}
+
+.todo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 2em;
+
+
+  form {
+    border: black 1px solid;
+    padding: 7%;
+    width: 150%;
+    margin-left: 90%;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      font-size: 0.75em;
+      margin: 0.75em 0.5em;
+
+      &.complete-true {
+        span {
+          background: pink;
+          text-decoration: line-through;
+          &:hover {
+            background: seagreen;
+          }
+        }
+      }
+
+      span {
+        background: #e0e0e0;
+        cursor: pointer;
+        &:hover {
+          background: pink;
+        }
+      }
+      span,
+      input {
+        border: 0.5px solid #eee;
+        display: inline-block;
+        padding: 0.2em 0.25em;
+        width: 300px;
+      }
+
+      button {
+        background: transparent;
+        border: none;
+        color: blue;
+        cursor: pointer;
+        padding: 0;
+        margin: 0 0.75em;
+      }
+    }
+  }
+}
+
+.toDoList {
+  width: 40%;
+  height: 10%;
+  margin: auto;
+}
