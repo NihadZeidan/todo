@@ -1,30 +1,42 @@
 import React from "react";
-// import IF from "./IF";
-// import { useState } from "react";
-import { ListGroup } from "react-bootstrap";
+import IF from "./IF";
+import { useState } from "react";
+import { ListGroup, Badge, Button, Form } from "react-bootstrap";
+import "./list.scss";
 
 function TodoList(props) {
-  // const [edit, setEdit] = useState(false);
-  // const [editedValues, setEditValues] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState("");
 
   const handleD = (e) => {
     let id = e.target.value;
     props.handleDelete(id);
   };
 
-  // function toggleEditTask(e) {
-  //   setEdit(!edit);
-  //   let id = e.target.value;
-  //   let findElement = props.list.find((item) => id == item._id);
+  function toggleEditTask(e) {
+    let id = e.target.value;
+    setId(id);
+    setEdit(!edit);
+  }
 
-  //   setEditValues(findElement);
-  //   console.log(editedValues);
-  // }
-  
-  // const handleSubmitEdit = (e) => {
-  //   e.preventDefault();
-  //   // props.handleEdited(editedValues);
-  // };
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+    let _id = id;
+    let text = e.target.text.value;
+    let assignee = e.target.assignee.value;
+    let difficulty = e.target.difficulty.value;
+    let dueDate = e.target.dueDate.value;
+    let data = {
+      _id: _id,
+      text: text,
+      assignee: assignee,
+      difficulty: difficulty,
+      dueDate: dueDate,
+    };
+    props.handleEdited(data);
+    e.target.reset();
+    setEdit(!edit);
+  };
 
   return (
     <>
@@ -39,37 +51,71 @@ function TodoList(props) {
               variant={item.complete ? "success" : "danger"}
             >
               <span>
+                <Badge
+                  variant={item.complete ? "success" : "danger"}
+                  className="compleatedOrNot"
+                >
+                  {item.complete ? "Completed" : "pending"}
+                </Badge>
+                <Badge variant="light" className="assignedTo">
+                  {item.assignee}
+                </Badge>
+                <Badge variant="dark" className="difficulty">
+                  Difficulty: {item.difficulty}%
+                </Badge>
+
                 <p>{item.text}</p>
-                <p>
-                  {" "}
-                  Assigned to: {item.assignee} / Difficulty: {item.difficulty}%
-                  / Due Date: {item.dueDate}
-                </p>
+                <p> Due Date: {item.dueDate}</p>
               </span>
             </ListGroup.Item>
-            <button onClick={handleD} value={item._id}>
-              {" "}
-              Delete{" "}
-            </button>
-            {/* <button onClick={toggleEditTask} value={item._id}>
-              {" "}
-              Edit{" "}
-            </button> */}
+            <div className="buttonContainer">
+              <Button
+                size="sm"
+                onClick={handleD}
+                value={item._id}
+                variant="danger"
+              >
+                {" "}
+                X{" "}
+              </Button>
+              <Button
+                onClick={toggleEditTask}
+                value={item._id}
+                variant="info"
+                size="sm"
+              >
+                Edit
+              </Button>
+            </div>
           </>
         ))}
-        {/* <IF condition={edit}>
-          <form onSubmit={handleSubmitEdit}>
-            <input type="text" name="text" placeholder="Edit the Task"></input>
-            <input
-              type="text"
-              name="assignee"
-              placeholder="Assigned to"
-            ></input>
-            <input type="range" name="difficulty"></input>
-            <input type="date" name="dueDate" placeholder="Due Date"></input>
-            <input type="submit" value="Edit"></input>
-          </form>
-        </IF> */}
+        <div className="formToEdit">
+          <IF condition={edit}>
+            <Form onSubmit={handleSubmitEdit}>
+              <input type="hidden" name="_id"></input>
+
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Edit the Task</Form.Label>
+                <Form.Control size="sm" type="text" name="text" />
+              </Form.Group>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Assigned To</Form.Label>
+                <Form.Control size="sm" type="text" name="assignee" />
+              </Form.Group>
+
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Difficulty</Form.Label>
+                <Form.Control size="sm" type="range" name="difficulty" />
+              </Form.Group>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Due Date</Form.Label>
+                <Form.Control size="sm" type="date" name="dueDate" />
+              </Form.Group>
+
+              <input type="submit" value="Edit"></input>
+            </Form>
+          </IF>
+        </div>
       </ListGroup>
     </>
   );

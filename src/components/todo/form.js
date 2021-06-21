@@ -1,26 +1,19 @@
 import React from "react";
-import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import useForm from "../hooks/useForm.js";
 
 function TodoForm(props) {
-  const [item, setItem] = useState({});
+  const [handleInputChange, handleSubmit] = useForm(cb);
 
-  function handleInputChange(e) {
-    setItem({ ...item, [e.target.name]: e.target.value });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    e.target.reset();
+  function cb(item) {
     props.handleSubmit(item);
-    setItem({});
   }
 
   return (
     <>
       <br />
-      <Form onSubmit={handleSubmit} className="from">
+      <Form onSubmit={handleSubmit}>
         <h3 className="title">Add To Do Item</h3>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>To Do Item</Form.Label>
