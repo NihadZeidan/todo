@@ -1,9 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { userContext } from "../hooks/contextSettings";
 // import axios from "axios";
-
+let hold = [];
+let hold2 = [];
+let flag = true;
 const useAjax = () => {
+  const myContextSettings = useContext(userContext);
   const todoAPI = "https://nihad-api-server.herokuapp.com/todo";
   const [list, setList] = useState([]);
+
+  let screenValues = list.slice(0, myContextSettings.itemPerScreen);
+
+  function handleNextPage(e) {
+    if (flag) {
+      hold = list;
+      flag = !flag;
+    }
+    screenValues = list.slice(myContextSettings.itemPerScreen);
+    setList(screenValues);
+  }
+
+  function handlePrevPage(e) {
+    // point = hold.indexOf(screenValues[0]);
+
+    screenValues = hold.slice(0);
+    setList(screenValues);
+    flag = !flag;
+  }
+
+  list.sort((a, b) => {
+    return a[myContextSettings.sortOn] - b[myContextSettings.sortOn];
+  });
+
+  function toggleCompletedTasks(e) {
+    if (!myContextSettings.itemState) {
+      let refresh = list.filter(
+        (obj) => obj.complete === myContextSettings.itemState
+      );
+      setList(refresh);
+      myContextSettings.itemState = !myContextSettings.itemState;
+      hold2 = list;
+    } else {
+      setList(hold2);
+      myContextSettings.itemState = !myContextSettings.itemState;
+    }
+  }
 
   const _addItem = (item) => {
     fetch(todoAPI, {
@@ -93,7 +134,19 @@ const useAjax = () => {
     _getTodoItems();
   }, []);
 
-  return [_addItem, _toggleComplete, list, setList, deleteItem, EditItem];
+  return [
+    _addItem,
+    _toggleComplete,
+    list,
+    setList,
+    deleteItem,
+    EditItem,
+    toggleCompletedTasks,
+    handleNextPage,
+    screenValues,
+    handlePrevPage,
+    flag,
+  ];
 };
 
 export default useAjax;

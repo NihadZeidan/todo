@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Switch, Route, Link } from "react-router-dom";
+import "./todo.scss";
+import IF from "./IF";
 import TodoForm from "./form.js";
 import TodoList from "./list.js";
-import { Navbar } from "react-bootstrap";
+import { Navbar, Button } from "react-bootstrap";
+import Config from "../configeration";
+
+import { userContext } from "../hooks/contextSettings";
 
 import useAjax from "../hooks/ajaxhook";
 
-import "./todo.scss";
-
 function ToDo(props) {
-  const [_addItem, _toggleComplete, list, setList, deleteItem, editItem] =
-    useAjax();
+  const myContextSettings = useContext(userContext);
+
+  let [
+    _addItem,
+    _toggleComplete,
+    list,
+    setList,
+    deleteItem,
+    editItem,
+    toggleCompletedTasks,
+    handleNextPage,
+    screenValues,
+    handlePrevPage,
+    flag,
+  ] = useAjax();
 
   document.title = `Incomplete:${
     list.filter((item) => !item.complete).length
@@ -25,7 +42,16 @@ function ToDo(props) {
   return (
     <>
       <Navbar bg="primary" variant="dark">
-        <Navbar.Brand href="#home">HOME </Navbar.Brand>
+        <Link to="/">
+          <Button variant="primary" size="lg">
+            Home
+          </Button>{" "}
+        </Link>
+        <Link to="/config">
+          <Button variant="primary" size="lg">
+            Settings
+          </Button>
+        </Link>
       </Navbar>
       <header>
         <h2>
@@ -33,20 +59,47 @@ function ToDo(props) {
         </h2>
       </header>
 
-      <section className="todo">
-        <div>
-          <TodoForm handleSubmit={_addItem} />
-        </div>
+      <Switch>
+        <Route exact path="/config">
+          <Config></Config>
+        </Route>
 
-        <div className="toDoList">
-          <TodoList
-            list={list}
-            handleComplete={_toggleComplete}
-            handleDelete={deleteTask}
-            handleEdited={editItem}
-          />
-        </div>
-      </section>
+        <Route exact path="/">
+          <section className="todo">
+            <div>
+              <TodoForm handleSubmit={_addItem} />
+            </div>
+
+            <div className="toDoList">
+              <TodoList
+                list={screenValues}
+                handleComplete={_toggleComplete}
+                handleDelete={deleteTask}
+                handleEdited={editItem}
+              />
+            </div>
+          </section>
+          <div className="nextPrevButtons">
+            <IF condition={list.length > myContextSettings.itemPerScreen}>
+              <Button variant="danger" onClick={handleNextPage}>
+                {" "}
+                Next{" "}
+              </Button>
+            </IF>
+
+            <IF condition={!flag}>
+              <Button onClick={handlePrevPage} variant="warning">
+                {" "}
+                Back to the Beginning{" "}
+              </Button>
+            </IF>
+          </div>
+          <Button className="togle" onClick={toggleCompletedTasks}>
+            {" "}
+            Show/Hide Completed Tasks !
+          </Button>
+        </Route>
+      </Switch>
     </>
   );
 }
