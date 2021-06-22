@@ -8,6 +8,8 @@ function TodoList(props) {
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState("");
 
+  // Move these three function into another Custom Hook !
+
   const handleD = (e) => {
     let id = e.target.value;
     props.handleDelete(id);
