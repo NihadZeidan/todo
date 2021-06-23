@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
+import IF from "./IF.js";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import useForm from "../hooks/useForm.js";
+import {AuthContext} from "../context/authContext"
 
 
 function TodoForm(props) {
- 
+ const myAuthContext = useContext(AuthContext)
 
   const [handleInputChange, handleSubmit] = useForm(cb);
 
@@ -16,6 +18,7 @@ function TodoForm(props) {
   return (
     <>
       <br />
+      <IF condition= {myAuthContext.validateAction("create")}>
       <Form onSubmit={handleSubmit}>
         <h3 className="title">Add To Do Item</h3>
         <Form.Group controlId="formBasicEmail">
@@ -64,6 +67,7 @@ function TodoForm(props) {
           Add Item
         </Button>
       </Form>
+      </IF>
     </>
   );
 }
