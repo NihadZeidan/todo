@@ -1,10 +1,12 @@
 import React from "react";
 import IF from "./IF";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ListGroup, Badge, Button, Form } from "react-bootstrap";
 import "./list.scss";
+import { AuthContext } from "../context/authContext";
 
 function TodoList(props) {
+  const myAuthContext = useContext(AuthContext);
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState("");
 
@@ -71,15 +73,17 @@ function TodoList(props) {
               </span>
             </ListGroup.Item>
             <div className="buttonContainer">
-              <Button
-                size="sm"
-                onClick={handleD}
-                value={item._id}
-                variant="danger"
-              >
-                {" "}
-                X{" "}
-              </Button>
+              <IF condition={myAuthContext.validateAction("delete")}>
+                <Button
+                  size="sm"
+                  onClick={handleD}
+                  value={item._id}
+                  variant="danger"
+                >
+                  {" "}
+                  X{" "}
+                </Button>
+              </IF>
               <Button
                 onClick={toggleEditTask}
                 value={item._id}

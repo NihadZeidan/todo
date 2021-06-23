@@ -1,11 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { userContext } from "../hooks/contextSettings";
 // import axios from "axios";
+import { AuthContext } from "../context/authContext";
 let hold = [];
 let hold2 = [];
 let flag = true;
 const useAjax = () => {
   const myContextSettings = useContext(userContext);
+  const myAuthContext = useContext(AuthContext);
   const todoAPI = "https://nihad-api-server.herokuapp.com/todo";
   const [list, setList] = useState([]);
 
@@ -62,29 +64,31 @@ const useAjax = () => {
   };
 
   const _toggleComplete = (id) => {
-    let item = list.filter((i) => i._id === id)[0] || {};
+    if (myAuthContext.validateAction("update")) {
+      let item = list.filter((i) => i._id === id)[0] || {};
 
-    if (item._id) {
-      item.complete = !item.complete;
+      if (item._id) {
+        item.complete = !item.complete;
 
-      let url = `${todoAPI}/${id}`;
+        let url = `${todoAPI}/${id}`;
 
-      fetch(url, {
-        method: "put",
-        mode: "cors",
-        cache: "no-cache",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
-      })
-        .then((response) => response.json())
-        .then((savedItem) => {
-          setList(
-            list.map((listItem) =>
-              listItem._id === item._id ? savedItem : listItem
-            )
-          );
+        fetch(url, {
+          method: "put",
+          mode: "cors",
+          cache: "no-cache",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(item),
         })
-        .catch(console.error);
+          .then((response) => response.json())
+          .then((savedItem) => {
+            setList(
+              list.map((listItem) =>
+                listItem._id === item._id ? savedItem : listItem
+              )
+            );
+          })
+          .catch(console.error);
+      }
     }
   };
 
