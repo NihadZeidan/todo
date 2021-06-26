@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { AuthContext } from "./context/authContext";
+import { AuthContext } from "../context/authContext";
 import { Button } from "react-bootstrap";
 import IF from "./todo/IF";
 import "./todo/login.scss";
@@ -11,7 +11,7 @@ function Login() {
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
-  console.log(`${input.username}, ${input.password}`);
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();

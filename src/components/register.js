@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { AuthContext } from "./context/authContext";
+import { AuthContext } from "../context/authContext";
 import { Form, Button, Badge } from "react-bootstrap";
 import IF from "./todo/IF";
 import "./todo/useSettingForm.scss";

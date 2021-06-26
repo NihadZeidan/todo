@@ -7,9 +7,7 @@ function SettingsProvider({ children }) {
   const [itemPerScreen, setItemPerScreen] = useState(3);
   const [sortOn, setSortOn] = useState("difficulty");
 
-  console.log(itemState)
-  console.log(itemPerScreen)
-  console.log(sortOn)
+
   const allStates = {
     itemState,
     setItemState,

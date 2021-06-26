@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 import IF from "./IF.js";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import useForm from "../hooks/useForm.js";
-import {AuthContext} from "../context/authContext"
+import useForm from "../../hooks/useForm.js";
+import {AuthContext} from "../../context/authContext"
 
 
 function TodoForm(props) {

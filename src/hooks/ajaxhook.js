@@ -1,15 +1,19 @@
 import { useEffect, useState, useContext } from "react";
-import { userContext } from "../hooks/contextSettings";
-// import axios from "axios";
+import { userContext } from "../context/contextSettings";
 import { AuthContext } from "../context/authContext";
 let hold = [];
 let hold2 = [];
+let prevScreenValues = [];
 let flag = true;
 const useAjax = () => {
   const myContextSettings = useContext(userContext);
   const myAuthContext = useContext(AuthContext);
   const todoAPI = "https://nihad-api-server.herokuapp.com/todo";
   const [list, setList] = useState([]);
+
+  list.sort((a, b) => {
+    return a[myContextSettings.sortOn] - b[myContextSettings.sortOn];
+  });
 
   let screenValues = list.slice(0, myContextSettings.itemPerScreen);
 
@@ -18,21 +22,24 @@ const useAjax = () => {
       hold = list;
       flag = !flag;
     }
+    prevScreenValues = list.slice(0, myContextSettings.itemPerScreen);
     screenValues = list.slice(myContextSettings.itemPerScreen);
     setList(screenValues);
   }
 
   function handlePrevPage(e) {
-    // point = hold.indexOf(screenValues[0]);
-
-    screenValues = hold.slice(0);
+    let value = hold.indexOf(prevScreenValues[0]);
+    screenValues = hold.slice(value);
     setList(screenValues);
-    flag = !flag;
-  }
 
-  list.sort((a, b) => {
-    return a[myContextSettings.sortOn] - b[myContextSettings.sortOn];
-  });
+    if (prevScreenValues[0] === hold[0]) {
+      flag = !flag;
+    }
+    prevScreenValues = hold.slice(
+      value - myContextSettings.itemPerScreen,
+      value
+    );
+  }
 
   function toggleCompletedTasks(e) {
     if (!myContextSettings.itemState) {
@@ -110,7 +117,10 @@ const useAjax = () => {
       method: "delete",
       mode: "cors",
     })
-      .then((data) => data.json())
+      .then((data) => {
+        data.json();
+      })
+
       .catch(console.error);
   };
 

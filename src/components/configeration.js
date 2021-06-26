@@ -4,7 +4,7 @@ import { useContext } from "react";
 import IF from "./todo/IF";
 import "./todo/useSettingForm.scss";
 
-import { userContext } from "./hooks/contextSettings";
+import { userContext } from "../context/contextSettings";
 
 let flag = "noChange";
 function UserConfig() {

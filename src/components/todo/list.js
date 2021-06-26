@@ -3,14 +3,12 @@ import IF from "./IF";
 import { useState, useContext } from "react";
 import { ListGroup, Badge, Button, Form } from "react-bootstrap";
 import "./list.scss";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../../context/authContext";
 
 function TodoList(props) {
   const myAuthContext = useContext(AuthContext);
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState("");
-
-  // Move these three function into another Custom Hook !
 
   const handleD = (e) => {
     let id = e.target.value;
@@ -48,13 +46,12 @@ function TodoList(props) {
         {props.list.map((item) => (
           <>
             <ListGroup.Item
-              onClick={() => props.handleComplete(item._id)}
               className={`complete-${item.complete.toString()}`}
               key={item._id}
               action
               variant={item.complete ? "success" : "danger"}
             >
-              <span>
+              <span onClick={() => props.handleComplete(item._id)}>
                 <Badge
                   variant={item.complete ? "success" : "danger"}
                   className="compleatedOrNot"
@@ -71,28 +68,28 @@ function TodoList(props) {
                 <p>{item.text}</p>
                 <p> Due Date: {item.dueDate}</p>
               </span>
-            </ListGroup.Item>
-            <div className="buttonContainer">
-              <IF condition={myAuthContext.validateAction("delete")}>
+              <div className="buttonContainer">
+                <IF condition={myAuthContext.validateAction("delete")}>
+                  <Button
+                    size="sm"
+                    onClick={handleD}
+                    value={item._id}
+                    variant="danger"
+                  >
+                    {" "}
+                    X{" "}
+                  </Button>
+                </IF>
                 <Button
-                  size="sm"
-                  onClick={handleD}
+                  onClick={toggleEditTask}
                   value={item._id}
-                  variant="danger"
+                  variant="info"
+                  size="sm"
                 >
-                  {" "}
-                  X{" "}
+                  Edit
                 </Button>
-              </IF>
-              <Button
-                onClick={toggleEditTask}
-                value={item._id}
-                variant="info"
-                size="sm"
-              >
-                Edit
-              </Button>
-            </div>
+              </div>
+            </ListGroup.Item>
           </>
         ))}
         <div className="formToEdit">

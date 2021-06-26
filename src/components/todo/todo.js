@@ -9,10 +9,10 @@ import Config from "../configeration";
 import Login from "../login";
 import Register from "../register";
 
-import { userContext } from "../hooks/contextSettings";
-import { AuthContext } from "../context/authContext";
+import { userContext } from "../../context/contextSettings";
+import { AuthContext } from "../../context/authContext";
 
-import useAjax from "../hooks/ajaxhook";
+import useAjax from "../../hooks/ajaxhook";
 
 function ToDo(props) {
   const myContextSettings = useContext(userContext);
@@ -114,7 +114,7 @@ function ToDo(props) {
               <IF condition={!flag}>
                 <Button onClick={handlePrevPage} variant="warning">
                   {" "}
-                  Back to the Beginning{" "}
+                  Previous{" "}
                 </Button>
               </IF>
             </div>
