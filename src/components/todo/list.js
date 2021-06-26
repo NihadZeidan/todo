@@ -68,6 +68,7 @@ function TodoList(props) {
                 <p>{item.text}</p>
                 <p> Due Date: {item.dueDate}</p>
               </span>
+            </ListGroup.Item>
               <div className="buttonContainer">
                 <IF condition={myAuthContext.validateAction("delete")}>
                   <Button
@@ -89,7 +90,6 @@ function TodoList(props) {
                   Edit
                 </Button>
               </div>
-            </ListGroup.Item>
           </>
         ))}
         <div className="formToEdit">
