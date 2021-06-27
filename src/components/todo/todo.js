@@ -95,6 +95,13 @@ function ToDo(props) {
               </div>
 
               <div className="toDoList">
+            <IF condition={myAuthContext.validateAction("update")}>
+              <Button className="togle" onClick={toggleCompletedTasks}>
+                {" "}
+                Show/Hide Completed Tasks !
+              </Button>
+            </IF>
+            
                 <TodoList
                   list={screenValues}
                   handleComplete={_toggleComplete}
@@ -118,12 +125,6 @@ function ToDo(props) {
                 </Button>
               </IF>
             </div>
-            <IF condition={myAuthContext.validateAction("update")}>
-              <Button className="togle" onClick={toggleCompletedTasks}>
-                {" "}
-                Show/Hide Completed Tasks !
-              </Button>
-            </IF>
           </Route>
         </IF>
       </Switch>
